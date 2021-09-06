@@ -10,12 +10,9 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: lint
-        uses: luke142367/Docker-Lint-Action@v1.0.0
+      - uses: hadolint/hadolint-action@v1.5.0
         with:
-          target: Dockerfile
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          dockerfile: Dockerfile
 
   build_amd64:
     name: Build code on AMD64 Architecture
