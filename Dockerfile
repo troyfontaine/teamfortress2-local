@@ -1,5 +1,5 @@
 # Base image that runs as the user steam
-FROM cm2network/steamcmd:latest
+FROM cm2network/steamcmd:steam
 
 LABEL maintainer "tfontaine@troyfontaine.com"
 
@@ -7,10 +7,10 @@ LABEL maintainer "tfontaine@troyfontaine.com"
 # reason, STEAM_APP doesn't resolve unless passed in separately
 ENV HOMEDIR="/home/steam"
 
-ARG STEAM_APP="tf2" \
-    STEAM_APP_ID="232250"
+ARG STEAM_APP="tf2"
 
 ENV STEAM_APP_CFG_NAME="tf" \
+    STEAM_APP_ID="232250" \
     STEAM_CMD_DIR="${HOMEDIR}/steamcmd" \
     STEAM_APP_DIR="${HOMEDIR}/${STEAM_APP}-dedicated"
 
