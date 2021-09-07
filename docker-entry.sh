@@ -3,6 +3,15 @@
 # Rename the server in the config file
 sed -i -e 's/{{SERVER_HOSTNAME}}/'"${SRCDS_HOSTNAME}"'/g' "${STEAM_APP_CFG_DIR}/server.cfg"
 
+if [ -z ${SRCDS_PW+x} ]
+then
+  PASSWORD_SET=""
+else
+  PASSWORD_SET="+sv_password \"${SRCDS_PW}\""
+fi
+
+pushd "${STEAM_APP_DIR}" || return
+
 bash "${STEAM_APP_DIR}/srcds_run" -game "${STEAM_APP_CFG_NAME}" -console -autoupdate \
     -steam_dir "${STEAM_CMD_DIR}" \
     -steamcmd_script "${HOMEDIR}/${STEAM_APP_CFG_NAME}_update.txt" \
@@ -16,7 +25,8 @@ bash "${STEAM_APP_DIR}/srcds_run" -game "${STEAM_APP_CFG_NAME}" -console -autoup
     +map "${SRCDS_STARTMAP}" \
     +sv_setsteamaccount "${SRCDS_TOKEN}" \
     +rcon_password "${SRCDS_RCONPW}" \
-    +sv_password "${SRCDS_PW}" \
+    "${PASSWORD_SET}" \
     +sv_region "${SRCDS_REGION}" \
-    -ip "${SRCDS_IP}" \
-    -authkey "${SRCDS_WORKSHOP_AUTHKEY}"
+    -ip "${SRCDS_IP}"
+
+popd || return
